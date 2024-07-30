@@ -43,7 +43,7 @@ Route::resource('/admin/employees', EmployeeController::class);
 Route::get('/superadmin/index', [SuperadminController::class, 'index'])->name('superadmin.index');
 Route::resource('/superadmin/companies', CompanyController::class);
 Route::resource('/superadmin/fincas', FincaController::class);
-Route::get('/superadmin/employees/register', [SuperadminController::class, 'showEmployeeRegister'])->name('superadmin.employees.register');
+Route::get('/superadmin/employees/register', [SuperadminController::class, 'showEmployeeRegister'])->name('superadmin.employees.register'); // helloworld!!
 
 
 // Rutas para el administrador
