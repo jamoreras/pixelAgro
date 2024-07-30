@@ -1,0 +1,38 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateBodegasTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('bodegas', function (Blueprint $table) { //Hola Pa. Lleva: empresa, código, descripción, ubicación, estado
+            $table->id();
+            $table->unsignedBigInteger('idCompany'); // relación con la tabla companies 
+            $table->string('descripcion', 100);
+            $table->string('ubicacion', 255);
+            $table->enum('estado', ['activo', 'inactivo']);
+
+            $table->timestamps();
+
+            $table->foreign('idCompany')->references('id')->on('companies'); // Foreign key constraint
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('bodegas');
+    }
+}
