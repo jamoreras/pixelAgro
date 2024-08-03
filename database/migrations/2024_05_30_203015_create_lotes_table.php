@@ -13,13 +13,15 @@ return new class extends Migration
     {
         Schema::create('lotes', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre',100);
+            $table->string('nombre', 100);
             $table->string('areaHa', 100);
             $table->string('estado', 100);
-            $table->unsignedBigInteger('idFinca');  // Relación con fincas
+            $table->unsignedBigInteger('idFinca'); // Relación con fincas
+            $table->unsignedBigInteger('idCompany'); // Agregar columna para la compañía
             $table->timestamps();
 
             $table->foreign('idFinca')->references('id')->on('fincas'); // Foreign key constraint
+            $table->foreign('idCompany')->references('id')->on('companies'); // Foreign key constraint
         });
     }
 
@@ -28,6 +30,11 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('lotes', function (Blueprint $table) {
+            $table->dropForeign(['idFinca']);
+            $table->dropForeign(['idCompany']); // Eliminar clave foránea de idCompany
+        });
+
         Schema::dropIfExists('lotes');
     }
 };

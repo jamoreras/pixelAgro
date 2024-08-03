@@ -4,22 +4,19 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBodegasTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('bodegas', function (Blueprint $table) { //Hola Pa. Lleva: empresa, código, descripción, ubicación, estado
+        Schema::create('bodegas', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('idCompany'); // relación con la tabla companies 
+            $table->unsignedBigInteger('idCompany'); // relación con la tabla companies
             $table->string('descripcion', 100);
             $table->string('ubicacion', 255);
             $table->enum('estado', ['activo', 'inactivo']);
-
             $table->timestamps();
 
             $table->foreign('idCompany')->references('id')->on('companies'); // Foreign key constraint
@@ -28,11 +25,9 @@ class CreateBodegasTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('bodegas');
     }
-}
+};

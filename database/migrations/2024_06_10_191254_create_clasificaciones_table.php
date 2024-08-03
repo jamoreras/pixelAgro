@@ -16,9 +16,8 @@ class CreateClasificacionesTable extends Migration
         Schema::create('clasificaciones', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('idCompany'); // relación con la tabla companies
-            $table->string('descripcion',100);
+            $table->string('descripcion', 100);
             $table->string('estado', 100);
-            
             $table->timestamps();
 
             $table->foreign('idCompany')->references('id')->on('companies'); // Foreign key constraint
@@ -35,4 +34,3 @@ class CreateClasificacionesTable extends Migration
         Schema::dropIfExists('clasificaciones');
     }
 }
-

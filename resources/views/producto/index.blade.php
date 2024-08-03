@@ -1,9 +1,19 @@
 @extends('producto.plantillabase')
 
+@section('title', 'Listado de Productos')
+
 @section('content')
+@if (auth()->user()->role == 'admin')
+<a href="{{ route('productos.create') }}" class="btn btn-primary">CREAR</a>
+
+<a href="{{ url('admin/dashboard') }}" class="btn btn-warning mb-3"> <- Regresar al Dashboard</a>
+@endif
+
+@if (auth()->user()->role=='employee')
+<a href="{{ url('employee/dashboard') }}" class="btn btn-warning mb-3"> <- Regresar al Dashboard</a>
+@endif
 <div class="container">
     <h1>Listado de Productos</h1>
-    <a href="{{ route('productos.create') }}" class="btn btn-primary mb-3">Crear Producto</a>
     <table class="table table-dark table-striped mt-4">
         <thead>
             <tr>
@@ -34,12 +44,14 @@
                 <td>{{ $producto->esperaCosecha }}</td>
                 <td>{{ $producto->estado }}</td>
                 <td>
+                    @if (auth()->user()->role == 'admin')
                     <form action="{{ route('productos.destroy', $producto->id) }}" method="POST" style="display:inline;">
                         <a href="{{ route('productos.edit', $producto->id) }}" class="btn btn-info">Editar</a>
                         @csrf
                         @method('DELETE')
                         <button type="button" class="btn btn-danger btn-delete">Eliminar</button>
                     </form>
+                    @endif
                 </td>
             </tr>
             @endforeach
@@ -62,3 +74,13 @@
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Sí, eliminar!',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            })
+        });
+    });
+</script>
+@endsection

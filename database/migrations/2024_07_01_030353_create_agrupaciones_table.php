@@ -17,6 +17,10 @@ class CreateAgrupacionesTable extends Migration
             $table->string('ciclo'); 
             $table->timestamps();
 
+            // Agregar columna para la compañía
+            $table->unsignedBigInteger('idCompany'); // Relación con la tabla companies
+            $table->foreign('idCompany')->references('id')->on('companies');
+
             // Definir la relación con bloques
             $table->unsignedBigInteger('idBloque')->nullable(); // Hacer la columna nullable si no siempre estará presente
             $table->foreign('idBloque')->references('id')->on('bloques');
@@ -28,6 +32,7 @@ class CreateAgrupacionesTable extends Migration
         Schema::table('agrupaciones', function (Blueprint $table) {
             $table->dropForeign(['idBloque']);
             $table->dropColumn('idBloque');
+            $table->dropForeign(['idCompany']); // Eliminar clave foránea de idCompany
         });
 
         Schema::dropIfExists('agrupaciones');

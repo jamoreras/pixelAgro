@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Producto;
 use App\Models\Clasificacion;
-
+use Illuminate\Support\Facades\Auth;
 class ProductoController extends Controller
 {
     public function index()
@@ -32,8 +32,8 @@ class ProductoController extends Controller
             'unidadMedida' => 'required|string|max:100',
             'esperaCosecha' => 'required|string|max:100',
             'estado' => 'required|string|in:activo,inactivo',
-        ]);
-
+        ]); 
+        $user = Auth::user();
         $producto = Producto::create([
             'nombreProducto' => $request->nombreProducto,
             'idClasificacion' => $request->clasificacion,
@@ -44,6 +44,8 @@ class ProductoController extends Controller
             'unidadMedida' => $request->unidadMedida,
             'esperaCosecha' => $request->esperaCosecha,
             'estado' => $request->estado,
+           'idCompany'=>$user->idCompany
+
         ]);
 
         return redirect('productos');

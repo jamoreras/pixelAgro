@@ -3,10 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
-class Ciclo extends Model
+class Ciclo extends BaseModel
 {
+    use HasFactory;
+
     protected $fillable = [
         'nombre',
         'idPrograma',
@@ -16,17 +17,15 @@ class Ciclo extends Model
         'puntoPartida',
         'motivo',
         'litrosHa',
-       
     ];
-    use HasFactory;
+
     public function company()
     {
         return $this->belongsTo(Company::class, 'idCompany');
     }
+
     public function programa()
     {
         return $this->belongsTo(Programa::class, 'idPrograma');
     }
-
-
 }

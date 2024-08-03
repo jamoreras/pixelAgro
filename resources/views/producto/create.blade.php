@@ -48,7 +48,10 @@
                 <option value="inactivo">Inactivo</option>
             </select>
         </div>
+        <a href="{{ route('productos.index') }}" class="btn btn-secondary" tabindex="5">Cancelar</a>
         <button type="submit" class="btn btn-primary">Guardar</button>
+       
+        
     </form>
 </div>
 @endsection

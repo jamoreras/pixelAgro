@@ -4,6 +4,7 @@
 
 @section('content')
 <a href="{{ route('users.create') }}" class="btn btn-primary mb-3">Crear Usuario</a>
+<a href="{{ url('superadmin/index') }}" class="btn btn-warning mb-3">Regresar a Dashboard</a>
 
 <table class="table table-dark table-striped mt-4">
     <thead>

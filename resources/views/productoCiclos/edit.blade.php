@@ -7,21 +7,6 @@
         @csrf
         @method('PUT')
         <div class="form-group">
-            <label for="dosisHa">Dosis por Ha:</label>
-            <input type="text" class="form-control" id="dosisHa" name="dosisHa" value="{{ $productoCiclo->dosisHa }}" required>
-        </div>
-        <div class="form-group">
-            <label for="unidadMedida">Unidad de Medida:</label>
-            <input type="text" class="form-control" id="unidadMedida" name="unidadMedida" value="{{ $productoCiclo->unidadMedida }}" required>
-        </div>
-        <div class="form-group">
-            <label for="estado">Estado:</label>
-            <select class="form-control" id="estado" name="estado" required>
-                <option value="activo" {{ $productoCiclo->estado == 'activo' ? 'selected' : '' }}>Activo</option>
-                <option value="inactivo" {{ $productoCiclo->estado == 'inactivo' ? 'selected' : '' }}>Inactivo</option>
-            </select>
-        </div>
-        <div class="form-group">
             <label for="idPrograma">Programa:</label>
             <select class="form-control" id="idPrograma" name="idPrograma" required>
                 @foreach($programas as $programa)
@@ -43,6 +28,21 @@
                 @foreach($productos as $producto)
                     <option value="{{ $producto->id }}" {{ $productoCiclo->idProducto == $producto->id ? 'selected' : '' }}>{{ $producto->nombreComercial }}</option>
                 @endforeach
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="dosisHa">Dosis por Ha:</label>
+            <input type="text" class="form-control" id="dosisHa" name="dosisHa" value="{{ $productoCiclo->dosisHa }}" required>
+        </div>
+        <div class="form-group">
+            <label for="unidadMedida">Unidad de Medida:</label>
+            <input type="text" class="form-control" id="unidadMedida" name="unidadMedida" value="{{ $productoCiclo->unidadMedida }}" required>
+        </div>
+        <div class="form-group">
+            <label for="estado">Estado:</label>
+            <select class="form-control" id="estado" name="estado" required>
+                <option value="activo" {{ $productoCiclo->estado == 'activo' ? 'selected' : '' }}>Activo</option>
+                <option value="inactivo" {{ $productoCiclo->estado == 'inactivo' ? 'selected' : '' }}>Inactivo</option>
             </select>
         </div>
         <div class="form-group">

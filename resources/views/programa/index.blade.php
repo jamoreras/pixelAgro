@@ -2,8 +2,18 @@
 
 @section('content')
 <div class="container">
+ 
+    @section('content')
     <h1>Listado de Programas</h1>
-    <a href="{{ route('programas.create') }}" class="btn btn-primary">Crear Programa</a>
+    @if (auth()->user()->role == 'admin')
+    <a href="{{ route('programas.create') }}" class="btn btn-primary">CREAR</a>
+    
+    <a href="{{ url('admin/dashboard') }}" class="btn btn-warning mb-3"> <- Regresar al Dashboard</a>
+    @endif    
+    @if (auth()->user()->role=='employee')
+    <a href="{{ url('employee/dashboard') }}" class="btn btn-warning mb-3"> <- Regresar al Dashboard</a>
+    @endif
+
     <table class="table table-dark table-striped mt-4">
         <thead>
             <tr>
@@ -22,12 +32,14 @@
                 <td>{{ $programa->company->nombreComercial }}</td>
                 <td>{{ $programa->estado }}</td>
                 <td>
+                    @if (auth()->user()->role == 'admin')
+                    <a href="{{ route('programas.edit', $programa->id) }}" class="btn btn-info">Editar</a>
                     <form action="{{ route('programas.destroy', $programa->id) }}" method="POST" style="display:inline;">
-                        <a href="{{ route('programas.edit', $programa->id) }}" class="btn btn-info">Editar</a>
                         @csrf
                         @method('DELETE')
                         <button type="button" class="btn btn-danger btn-delete">Eliminar</button>
                     </form>
+                    @endif
                 </td>
             </tr>
             @endforeach

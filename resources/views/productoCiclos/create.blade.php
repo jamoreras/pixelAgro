@@ -6,21 +6,6 @@
     <form action="{{ route('productoCiclos.store') }}" method="POST">
         @csrf
         <div class="form-group">
-            <label for="dosisHa">Dosis por Ha:</label>
-            <input type="text" class="form-control" id="dosisHa" name="dosisHa" required>
-        </div>
-        <div class="form-group">
-            <label for="unidadMedida">Unidad de Medida:</label>
-            <input type="text" class="form-control" id="unidadMedida" name="unidadMedida" required>
-        </div>
-        <div class="form-group">
-            <label for="estado">Estado:</label>
-            <select class="form-control" id="estado" name="estado" required>
-                <option value="activo">Activo</option>
-                <option value="inactivo">Inactivo</option>
-            </select>
-        </div>
-        <div class="form-group">
             <label for="idPrograma">Programa:</label>
             <select class="form-control" id="idPrograma" name="idPrograma" required>
                 @foreach($programas as $programa)
@@ -45,6 +30,21 @@
             </select>
         </div>
         <div class="form-group">
+            <label for="dosisHa">Dosis por Ha:</label>
+            <input type="text" class="form-control" id="dosisHa" name="dosisHa" required>
+        </div>
+        <div class="form-group">
+            <label for="unidadMedida">Unidad de Medida:</label>
+            <input type="text" class="form-control" id="unidadMedida" name="unidadMedida" required>
+        </div>
+        <div class="form-group">
+            <label for="estado">Estado:</label>
+            <select class="form-control" id="estado" name="estado" required>
+                <option value="activo">Activo</option>
+                <option value="inactivo">Inactivo</option>
+            </select>
+        </div>
+        <div class="form-group">
             <label for="idCompany">Compañía:</label>
             <select class="form-control" id="idCompany" name="idCompany" required>
                 @foreach($companies as $company)
@@ -52,6 +52,7 @@
                 @endforeach
             </select>
         </div>
+        <a href="{{ route('productoCiclos.index') }}" class="btn btn-secondary" tabindex="5">Cancelar</a>
         <button type="submit" class="btn btn-primary">Guardar</button>
     </form>
 </div>

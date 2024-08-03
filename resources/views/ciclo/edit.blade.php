@@ -40,7 +40,14 @@
         </div>
         <div class="form-group">
             <label for="puntoPartida">Punto de Partida:</label>
-            <input type="text" class="form-control" id="puntoPartida" name="puntoPartida" value="{{ $ciclo->puntoPartida }}" required>
+            <select class="form-control" id="puntoPartida" name="puntoPartida" required>
+                <option value="I Cosecha" {{ $ciclo->puntoPartida == 'I Cosecha' ? 'selected' : '' }}>I Cosecha</option>
+                <option value="I Post-Forza" {{ $ciclo->puntoPartida == 'I Post-Forza' ? 'selected' : '' }}>I Post-Forza</option>
+                <option value="II Cosecha" {{ $ciclo->puntoPartida == 'II Cosecha' ? 'selected' : '' }}>II Cosecha</option>
+                <option value="II Post-Forza" {{ $ciclo->puntoPartida == 'II Post-Forza' ? 'selected' : '' }}>II Post-Forza</option>
+                <option value="Semilleros" {{ $ciclo->puntoPartida == 'Semilleros' ? 'selected' : '' }}>Semilleros</option>
+                <option value="Siembra" {{ $ciclo->puntoPartida == 'Siembra' ? 'selected' : '' }}>Siembra</option>
+            </select>
         </div>
         <div class="form-group">
             <label for="motivo">Motivo:</label>

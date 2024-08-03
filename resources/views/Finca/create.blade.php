@@ -24,7 +24,7 @@
                 <option value="inactivo">Inactivo</option>
             </select>
         </div>
-
+{{-- 
         <div class="mb-3">
             <label for="idCompany" class="form-label">Compañía</label>
             <select class="form-select" id="idCompany" name="idCompany" tabindex="4">
@@ -32,9 +32,10 @@
                     <option value="{{ $company->id }}">{{ $company->nombreComercial }}</option>
                 @endforeach
             </select>
-        </div>
+        </div> --}}
+        <input type="hidden" id="idCompany" name="idCompany" value="{{ Auth::user()->idCompany }}">
 
-        <a href="/fincas" class="btn btn-secondary" tabindex="5">Cancelar</a>
+        <a href="/admin/fincas" class="btn btn-secondary" tabindex="5">Cancelar</a>
         <button type="submit" class="btn btn-primary" tabindex="6">Guardar</button>
     </form>
 </div>

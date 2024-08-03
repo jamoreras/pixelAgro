@@ -24,9 +24,12 @@ class CreateProductosTable extends Migration
             $table->string('unidadMedida', 100);
             $table->string('esperaCosecha', 100);
             $table->enum('estado', ['activo', 'inactivo'])->default('activo'); 
+            $table->unsignedBigInteger('idCompany'); // Campo para la compañía
             $table->timestamps();
 
+            // Claves foráneas
             $table->foreign('idClasificacion')->references('id')->on('clasificaciones');
+            $table->foreign('idCompany')->references('id')->on('companies');
         });
     }
 

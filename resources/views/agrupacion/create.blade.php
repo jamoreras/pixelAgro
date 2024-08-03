@@ -71,6 +71,7 @@
         </div>
         
         <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="{{ route('agrupaciones.index') }}" class="btn btn-secondary" tabindex="5">Cancelar</a>
     </form>
 </div>
 

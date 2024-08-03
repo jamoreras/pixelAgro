@@ -13,10 +13,13 @@ return new class extends Migration
             $table->decimal('areaHa', 8, 2);
             $table->string('estado');
             $table->unsignedBigInteger('idLote');
+            $table->unsignedBigInteger('idCompany'); // Agregar columna para la compañía
             $table->timestamps();
 
             // Definir la relación con lotes
             $table->foreign('idLote')->references('id')->on('lotes');
+            // Definir la relación con compañías
+            $table->foreign('idCompany')->references('id')->on('companies');
         });
     }
 
@@ -24,6 +27,7 @@ return new class extends Migration
     {
         Schema::table('bloques', function (Blueprint $table) {
             $table->dropForeign(['idLote']);
+            $table->dropForeign(['idCompany']); // Eliminar clave foránea de idCompany
         });
 
         Schema::dropIfExists('bloques');

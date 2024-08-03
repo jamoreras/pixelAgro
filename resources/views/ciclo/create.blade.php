@@ -38,7 +38,14 @@
         </div>
         <div class="form-group">
             <label for="puntoPartida">Punto de Partida:</label>
-            <input type="text" class="form-control" id="puntoPartida" name="puntoPartida" required>
+            <select class="form-control" id="puntoPartida" name="puntoPartida" required>
+                <option value="I Cosecha">I Cosecha</option>
+                <option value="I Post-Forza">I Post-Forza</option>
+                <option value="II Cosecha">II Cosecha</option>
+                <option value="II Post-Forza">II Post-Forza</option>
+                <option value="Semilleros">Semilleros</option>
+                <option value="Siembra">Siembra</option>
+            </select>
         </div>
         <div class="form-group">
             <label for="motivo">Motivo:</label>
@@ -49,6 +56,7 @@
             <input type="text" class="form-control" id="litrosHa" name="litrosHa" required>
         </div>
         <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="{{ route('ciclos.index') }}" class="btn btn-secondary" tabindex="5">Cancelar</a>
     </form>
 </div>
 @endsection

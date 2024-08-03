@@ -6,6 +6,6 @@ class EmployeeController extends Controller
 {
     public function dashboard()
     {
-        return view('employee.dashboard');
+        return view('/roles/employee.dashboard');
     }
 }

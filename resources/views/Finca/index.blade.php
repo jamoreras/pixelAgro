@@ -3,8 +3,15 @@
 @section('title', 'Listado de Fincas')
 
 @section('content')
+@if (auth()->user()->role == 'admin')
 <a href="{{ route('fincas.create') }}" class="btn btn-primary">CREAR</a>
 
+<a href="{{ url('admin/dashboard') }}" class="btn btn-warning mb-3"> <- Regresar al Dashboard</a>
+@endif
+
+@if (auth()->user()->role=='employee')
+<a href="{{ url('employee/dashboard') }}" class="btn btn-warning mb-3"> <- Regresar al Dashboard</a>
+@endif
 <table class="table table-dark table-striped mt-4">
     <thead>
         <tr>
@@ -25,12 +32,14 @@
             <td>{{ $finca->areaHa }}</td>
             <td>{{ $finca->estado }}</td>
             <td>
+                @if (auth()->user()->role == 'admin')
                 <form action="{{ route('fincas.destroy', $finca->id) }}" method="POST" style="display:inline;">
                     <a href="{{ route('fincas.edit', $finca->id) }}" class="btn btn-info">Editar</a>
                     @csrf
                     @method('DELETE')
                     <button type="button" class="btn btn-danger btn-delete">Eliminar</button>
                 </form>
+                @endif
             </td>
         </tr>
         @endforeach
@@ -54,7 +63,7 @@
                 confirmButtonText: 'Sí, eliminar!',
                 cancelButtonText: 'Cancelar'
             }).then((result) => {
-                if (result.isConfirmed) {
+                if (result.isConfirmed) {   
                     form.submit();
                 }
             })

@@ -3,7 +3,15 @@
 @section('content')
 <div class="container">
     <h1>Listado de Ciclos</h1>
-    <a href="{{ route('ciclos.create') }}" class="btn btn-primary">Crear Ciclo</a>
+    @if (auth()->user()->role == 'admin')
+    <a href="{{ route('ciclos.create') }}" class="btn btn-primary">CREAR</a>
+    
+    <a href="{{ url('admin/dashboard') }}" class="btn btn-warning mb-3"> <- Regresar al Dashboard</a>
+    @endif
+    
+    @if (auth()->user()->role=='employee')
+    <a href="{{ url('employee/dashboard') }}" class="btn btn-warning mb-3"> <- Regresar al Dashboard</a>
+    @endif
     <table class="table table-dark table-striped mt-4">
         <thead>
             <tr>
@@ -32,12 +40,14 @@
                 <td>{{ $ciclo->motivo }}</td>
                 <td>{{ $ciclo->litrosHa }}</td>
                 <td>
+                    @if (auth()->user()->role == 'admin')
+                    <a href="{{ route('ciclos.edit', $ciclo->id) }}" class="btn btn-info">Editar</a>
                     <form action="{{ route('ciclos.destroy', $ciclo->id) }}" method="POST" style="display:inline;">
-                        <a href="{{ route('ciclos.edit', $ciclo->id) }}" class="btn btn-info">Editar</a>
                         @csrf
                         @method('DELETE')
                         <button type="button" class="btn btn-danger btn-delete">Eliminar</button>
                     </form>
+                    @endif
                 </td>
             </tr>
             @endforeach

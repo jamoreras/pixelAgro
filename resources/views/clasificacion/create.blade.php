@@ -18,13 +18,15 @@
         </div>
         <div class="form-group">
             <label for="company_id">Compañía:</label>
-            <select class="form-control" id="idCompany" name="idCompany" required>
+               <select class="form-select" id="idCompany" name="idCompany" tabindex="4">
                 @foreach($companies as $company)
                     <option value="{{ $company->id }}">{{ $company->nombreComercial }}</option>
                 @endforeach
             </select>
+            
         </div>
         <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="{{ route('clasificaciones.index') }}" class="btn btn-secondary" tabindex="5">Cancelar</a>
     </form>
 </div>
 @endsection

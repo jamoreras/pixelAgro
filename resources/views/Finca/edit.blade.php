@@ -21,15 +21,22 @@
                 <option value="inactivo" {{ $finca->estado == 'inactivo' ? 'selected' : '' }}>Inactivo</option>
             </select>
         </div>
-        <div class="form-group">
+        {{-- <div class="form-group">
             <label for="idCompany">Compañía:</label>
             <select class="form-control" id="idCompany" name="idCompany" required>
                 @foreach($companies as $company)
                     <option value="{{ $company->id }}" {{ $finca->idCompany == $company->id ? 'selected' : '' }}>{{ $company->nombreComercial }}</option>
                 @endforeach
             </select>
-        </div>
+        </div> --}}
+        
+        <input type="hidden" id="idCompany" name="idCompany" value="{{ Auth::user()->idCompany }}">
+        @if (auth()->user()->role == 'admin')
         <button type="submit" class="btn btn-primary">Guardar</button>
+           
+        @endif
+      
+
     </form>
 </div>
 @endsection

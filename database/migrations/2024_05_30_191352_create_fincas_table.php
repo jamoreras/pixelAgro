@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('fincas', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre',100);
+            $table->string('nombre', 100);
             $table->string('areaHa', 100);
             $table->string('estado', 100);
             $table->unsignedBigInteger('idCompany'); // relación con la tabla companies

@@ -17,6 +17,8 @@ class CreateAgrupacionBloqueTable extends Migration
             $table->id();
             $table->foreignId('agrupacion_id')->constrained('agrupaciones')->onDelete('cascade');
             $table->foreignId('bloque_id')->constrained('bloques')->onDelete('cascade');
+            $table->unsignedBigInteger('idCompany'); // Campo para la compañía
+          //  $table->foreign('idCompany')->references('id')->on('companies')->onDelete('cascade'); // Clave foránea
             $table->timestamps();
         });
     }
@@ -31,6 +33,7 @@ class CreateAgrupacionBloqueTable extends Migration
         Schema::table('agrupacion_bloque', function (Blueprint $table) {
             $table->dropForeign(['agrupacion_id']);
             $table->dropForeign(['bloque_id']);
+          //  $table->dropForeign(['idCompany']); // Eliminar clave foránea
         });
 
         Schema::dropIfExists('agrupacion_bloque');

@@ -47,7 +47,11 @@ class AgrupacionController extends Controller
             'bloques' => 'required|array', // Cambiado a array para aceptar múltiples bloques
         ]);
 
-        $agrupacion = Agrupacion::create($request->except('bloques'));
+        // Obtener el idCompany del usuario autenticado
+        $companyId = auth()->user()->idCompany;
+
+        // Crear la agrupación con el idCompany del usuario autenticado
+        $agrupacion = Agrupacion::create(array_merge($request->except('bloques'), ['idCompany' => $companyId]));
         $agrupacion->bloques()->sync($request->bloques);
 
         return redirect()->route('agrupaciones.index');
@@ -91,8 +95,12 @@ class AgrupacionController extends Controller
             'bloques.*' => 'exists:bloques,id'
         ]);
 
+        // Obtener el idCompany del usuario autenticado
+        $companyId = auth()->user()->idCompany;
+
+        // Encontrar y actualizar la agrupación con el idCompany del usuario autenticado
         $agrupacion = Agrupacion::findOrFail($id);
-        $agrupacion->update($request->all());
+        $agrupacion->update(array_merge($request->all(), ['idCompany' => $companyId]));
         $agrupacion->bloques()->sync($request->bloques);
 
         return redirect()->route('agrupaciones.index');
@@ -118,9 +126,13 @@ class AgrupacionController extends Controller
 
         return response()->json($lotes);
     }
+
+    /**
+     * Get Bloques by Lote for AJAX requests.
+     */
     public function getBloquesByLote($loteId)
-{
-    $bloques = Bloque::where('idLote', $loteId)->get();
-    return response()->json($bloques);
-}
+    {
+        $bloques = Bloque::where('idLote', $loteId)->get();
+        return response()->json($bloques);
+    }
 }

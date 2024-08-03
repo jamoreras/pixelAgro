@@ -3,8 +3,15 @@
 @section('title', 'Listado de Clasificaciones')
 
 @section('content')
+@if (auth()->user()->role == 'admin')
 <a href="{{ route('clasificaciones.create') }}" class="btn btn-primary">CREAR</a>
 
+<a href="{{ url('admin/dashboard') }}" class="btn btn-warning mb-3"> <- Regresar al Dashboard</a>
+@endif
+
+@if (auth()->user()->role=='employee')
+<a href="{{ url('employee/dashboard') }}" class="btn btn-warning mb-3"> <- Regresar al Dashboard</a>
+@endif
 <table class="table table-dark table-striped mt-4">
     <thead>
         <tr>
@@ -23,12 +30,14 @@
             <td>{{ $clasificacion->company->nombreComercial }}</td>
             <td>{{ $clasificacion->estado }}</td>
             <td>
+                @if (auth()->user()->role == 'admin')
+                <a href="{{ route('clasificaciones.edit', $clasificacion->id) }}" class="btn btn-info">Editar</a>
                 <form action="{{ route('clasificaciones.destroy', $clasificacion->id) }}" method="POST" style="display:inline;">
-                    <a href="{{ route('clasificaciones.edit', $clasificacion->id) }}" class="btn btn-info">Editar</a>
                     @csrf
                     @method('DELETE')
                     <button type="button" class="btn btn-danger btn-delete">Eliminar</button>
                 </form>
+                @endif
             </td>
         </tr>
         @endforeach

@@ -37,7 +37,7 @@ class FincaController extends Controller
         $finca->estado = $request->estado;      
         $finca->idCompany = $request->idCompany; 
         $finca->save();
-        return redirect('fincas');
+        return redirect('admin/fincas');
     }
 
     /**
@@ -70,7 +70,7 @@ class FincaController extends Controller
         $finca->estado = $request->estado;
         $finca->idCompany = $request->idCompany; 
         $finca->save();
-        return redirect('fincas');
+        return redirect('/admin/fincas');
     }
 
     /**

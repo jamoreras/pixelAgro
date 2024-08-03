@@ -3,16 +3,17 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
-class Clasificacion extends Model
+class Clasificacion extends BaseModel
 {
     use HasFactory;
-    protected $table = 'clasificaciones';
+    protected $table = 'clasificaciones'; 
 
+    protected $fillable = ['idCompany', 'descripcion', 'estado'];
+    
     public function company()
 {
     return $this->belongsTo(Company::class, 'idCompany');
 }
-    
 }
+

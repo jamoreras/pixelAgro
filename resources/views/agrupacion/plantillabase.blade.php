@@ -9,7 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.16/dist/sweetalert2.min.css" rel="stylesheet">
 </head>
 <body>
-    <h1 class="bg-primary text-white text-center">CRUD Agrupacion</h1>
+    <h1 class="bg-primary text-white text-center">CRUD Agrupacion de Bloques</h1>
     <div class="container">
         @yield('content')
     </div>
