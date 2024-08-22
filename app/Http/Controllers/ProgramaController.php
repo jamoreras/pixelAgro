@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Programa;
 use App\Models\Company;
+use Illuminate\Support\Facades\Auth;
+
 
 class ProgramaController extends Controller
 {
@@ -13,7 +15,8 @@ class ProgramaController extends Controller
      */
     public function index()
     {
-        $programas = Programa::all();
+        $user = Auth::user();
+        $programas = Programa::where('idCompany', $user->idCompany)->get();
         return view('programa.index', compact('programas'));
     }
 
@@ -22,7 +25,8 @@ class ProgramaController extends Controller
      */
     public function create()
     {
-        $companies = Company::all();
+        $user = Auth::user();
+        $companies = Company::where('id', $user->idCompany)->get();
         return view('programa.create', compact('companies'));
     }
 

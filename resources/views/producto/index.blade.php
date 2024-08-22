@@ -5,12 +5,11 @@
 @section('content')
 @if (auth()->user()->role == 'admin')
 <a href="{{ route('productos.create') }}" class="btn btn-primary">CREAR</a>
-
-<a href="{{ url('admin/dashboard') }}" class="btn btn-warning mb-3"> <- Regresar al Dashboard</a>
+<a href="{{ url('admin/dashboard') }}" class="btn btn-warning "> <i class="fa-solid fa-backward"></i> Regresar al Dashboard</a>
 @endif
 
 @if (auth()->user()->role=='employee')
-<a href="{{ url('employee/dashboard') }}" class="btn btn-warning mb-3"> <- Regresar al Dashboard</a>
+<a href="{{ url('employee/dashboard') }}" class="btn btn-warning mb-3"> <i class="fa-solid fa-backward"></i> Regresar al Dashboard</a>
 @endif
 <div class="container">
     <h1>Listado de Productos</h1>
@@ -35,7 +34,7 @@
             <tr>
                 <td>{{ $producto->id }}</td>
                 <td>{{ $producto->nombreProducto }}</td>
-                <td>{{ $producto->clasificacion->descripcion }}</td>
+                <td>{{ $producto->clasificacion->descripcion ?? 'No asignada' }}</td> <!-- Manejar caso null -->
                 <td>{{ $producto->nombreComercial }}</td>
                 <td>{{ $producto->ingredienteActivo }}</td>
                 <td>{{ $producto->dosis }}</td>

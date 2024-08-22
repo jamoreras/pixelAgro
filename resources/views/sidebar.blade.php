@@ -110,6 +110,7 @@
                                     <li><a class="dropdown-item" href="{{ route('programas.index') }}">Programas</a></li>
                                     <li><a class="dropdown-item" href="{{ route('ciclos.index') }}">Ciclos</a></li>
                                     <li><a class="dropdown-item" href="{{ route('productoCiclos.index') }}">Productos por Ciclo</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('notifications.index') }}">Notificaciones</a></li>
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">

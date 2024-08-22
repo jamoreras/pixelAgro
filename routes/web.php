@@ -18,6 +18,7 @@ use App\Http\Controllers\ProductoCicloController;
 use App\Http\Controllers\AgrupacionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controller\AdminDashboardController;
+use App\Http\Controllers\NotificationController;
 
 // Rutas p�blicas
 Route::get('/', function () {
@@ -61,35 +62,37 @@ Route::get('/sidebar', function () {
     return view('sidebar');
 })->name('sidebar');
 
-Route::middleware('auth')->group(function () {
-//rutas que ocupan estar logeado
-Route::resource('bodegas', 'App\Http\Controllers\BodegaController');
-Route::resource('lotes', LoteController::class);
-Route::resource('bloques', BloqueController::class);
-Route::resource('clasificaciones', ClasificacionController::class);
-Route::resource('productos', ProductoController::class);
-Route::resource('programas', ProgramaController::class);
-Route::resource('ciclos', CicloController::class);
-Route::resource('productoCiclos', ProductoCicloController::class);
-Route::resource('agrupaciones', AgrupacionController::class);
-Route::get('/superadmin/dashboard', [SuperadminController::class, 'dashboard'])->name('superadmin.dashboard');
-Route::get('/superadmin/register', [SuperadminController::class, 'register'])->name('superadmin.register');
-Route::resource('/superadmin/admins', AdminController::class);
-Route::resource('users', UserController::class);
-Route::resource('/admin/employees', EmployeeController::class);
-Route::get('/superadmin/index', [SuperadminController::class, 'index'])->name('superadmin.index');
-Route::resource('/superadmin/companies', CompanyController::class);
-Route::resource('/admin/fincas', FincaController::class);
-Route::get('/superadmin/employees/register', [SuperadminController::class, 'showEmployeeRegister'])->name('superadmin.employees.register');
 
-//ruta para que menu dashboard de admin
 
-Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-Route::resource('/admin/employees', EmployeeController::class);
+Route::middleware(['auth'])->group(function () {
+   
+    //rutas que ocupan estar logeado
+    Route::resource('bodegas', 'App\Http\Controllers\BodegaController');
+    Route::resource('lotes', LoteController::class);
+    Route::resource('bloques', BloqueController::class);
+    Route::resource('clasificaciones', ClasificacionController::class);
+    Route::resource('productos', ProductoController::class);
+    Route::resource('programas', ProgramaController::class);
+    Route::resource('ciclos', CicloController::class);
+    Route::resource('productoCiclos', ProductoCicloController::class);
+    Route::resource('agrupaciones', AgrupacionController::class);
+    Route::get('/superadmin/register', [SuperadminController::class, 'register'])->name('superadmin.register');
+    Route::resource('/superadmin/admins', AdminController::class);
+    Route::resource('users', UserController::class);
+    Route::resource('/admin/employees', EmployeeController::class);
+    Route::get('/superadmin/dashboard', [SuperadminController::class, 'dashboard'])->name('superadmin.dashboard');
+    Route::resource('/superadmin/companies', CompanyController::class);
+    Route::resource('/admin/fincas', FincaController::class);
+    Route::get('/superadmin/employees/register', [SuperadminController::class, 'showEmployeeRegister'])->name('superadmin.employees.register');
+    Route::resource('notifications', NotificationController::class);
 
-// Rutas para el empleado
-Route::get('/employee/dashboard', [EmployeeController::class, 'dashboard'])->name('employee.dashboard');
+    //ruta para que menu dashboard de admin
 
+    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::resource('/admin/employees', EmployeeController::class);
+
+    // Rutas para el empleado
+    Route::get('/employee/dashboard', [EmployeeController::class, 'dashboard'])->name('employee.dashboard');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

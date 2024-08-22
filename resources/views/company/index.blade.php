@@ -4,9 +4,14 @@
 
 @section('content')
 <a href="{{ route('companies.create') }}" class="btn btn-primary mb-3">Crear Compañía</a>
-<a href="{{ url('superadmin/index') }}" class="btn btn-warning mb-3">Regresar a Dashboard</a>
+<a href="{{ url('superadmin/dashboard') }}" class="btn btn-warning mb-3"> <i class="fa-solid fa-backward"></i> Regresar a Dashboard</a>
 
-
+@if(session('error'))
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{ session('error') }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+@endif 
 <table class="table table-dark table-striped mt-4">
     <thead>
         <tr>

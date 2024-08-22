@@ -3,7 +3,6 @@
 @section('content')
 <div class="container">
     <h2>Crear Lote</h2>
-
     <form action="/lotes" method="POST">
         @csrf
 

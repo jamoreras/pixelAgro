@@ -7,6 +7,8 @@ use App\Models\Agrupacion;
 use App\Models\Bloque;
 use App\Models\Finca;
 use App\Models\Lote;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
 
 class AgrupacionController extends Controller
 {
@@ -15,7 +17,7 @@ class AgrupacionController extends Controller
      */
     public function index()
     {
-        $agrupaciones = Agrupacion::with('bloques')->get();
+        $agrupaciones = Agrupacion::getAgrupacionesConBloques();
         return view('agrupacion.index', compact('agrupaciones'));
     }
 
@@ -38,24 +40,53 @@ class AgrupacionController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'nombre' => 'required|string|max:255',
-            'fechaInicio' => 'required|date',
-            'areaTotal' => 'required|numeric',
-            'estado' => 'required|string|max:100',
-            'ciclo' => 'required|string|in:I Cosecha,I Post-Forza,II Cosecha,II Post-Forza,Semilleros,Siembra',
-            'bloques' => 'required|array', // Cambiado a array para aceptar múltiples bloques
-        ]);
-
-        // Obtener el idCompany del usuario autenticado
-        $companyId = auth()->user()->idCompany;
-
-        // Crear la agrupación con el idCompany del usuario autenticado
-        $agrupacion = Agrupacion::create(array_merge($request->except('bloques'), ['idCompany' => $companyId]));
-        $agrupacion->bloques()->sync($request->bloques);
-
-        return redirect()->route('agrupaciones.index');
+        try {
+            // Validación de la solicitud
+            $request->validate([
+                'nombre' => 'required|string|max:255',
+                'fechaInicio' => 'required|date',
+                'areaTotal' => 'required|numeric',
+                'estado' => 'required|string|max:100',
+                'ciclo' => 'required|string|in:I Cosecha,I Post-Forza,II Cosecha,II Post-Forza,Semilleros,Siembra',
+                'bloques' => 'required|array', // Acepta múltiples bloques
+                'bloques.*' => 'exists:bloques,id', // Valida que cada ID de bloque exista en la tabla de bloques
+                'finca_id' => 'required',
+                'lote_id' => 'required',
+            ]);
+    
+            // Obtener el idCompany del usuario autenticado
+            $companyId = auth()->user()->idCompany;
+    
+            // Agregar idCompany al request
+            $data = $request->except('bloques'); // Obtener todos los datos del request, excepto 'bloques'
+            $data['idCompany'] = $companyId; // Agregar idCompany
+    
+            // Crear la agrupación con el idCompany agregado al array
+            $agrupacion = Agrupacion::create($data);
+    
+            // Sincronizar bloques con idCompany en la tabla pivote
+            foreach ($request->input('bloques') as $bloqueId) {
+                DB::table('agrupacion_bloque')->insert([
+                    'agrupacion_id' => $agrupacion->id,
+                    'bloque_id' => $bloqueId,
+                    'idCompany' => $companyId,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+    
+            // Redirigir con un mensaje de éxito
+            return redirect()->route('agrupaciones.index')->with('success', 'Agrupación creada exitosamente.');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Redirigir con un mensaje de error en caso de validación fallida
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        } catch (\Exception $e) {
+            // Redirigir con un mensaje de error en caso de fallo general
+            return redirect()->back()->with('error', 'Hubo un problema al guardar la agrupación. Inténtalo nuevamente.')->withInput();
+        }
     }
+    
+    
 
     /**
      * Display the specified resource.
@@ -74,9 +105,8 @@ class AgrupacionController extends Controller
         $agrupacion = Agrupacion::findOrFail($id);
         $fincas = Finca::all();
         $bloques = Bloque::all();
-        $selectedFinca = $agrupacion->bloques->first()->lote->finca->id ?? null;
-        $selectedLote = $agrupacion->bloques->first()->lote->id ?? null;
-
+        $selectedFinca = $agrupacion->finca_id;
+        $selectedLote = $agrupacion->lote_id;
         return view('agrupacion.edit', compact('agrupacion', 'fincas', 'bloques', 'selectedFinca', 'selectedLote'));
     }
 
@@ -85,6 +115,7 @@ class AgrupacionController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // Validación de la solicitud
         $request->validate([
             'nombre' => 'required|string|max:255',
             'fechaInicio' => 'required|date',
@@ -92,19 +123,63 @@ class AgrupacionController extends Controller
             'estado' => 'required|string|max:100',
             'ciclo' => 'required|string|in:I Cosecha,I Post-Forza,II Cosecha,II Post-Forza,Semilleros,Siembra',
             'bloques' => 'required|array',
-            'bloques.*' => 'exists:bloques,id'
+            'bloques.*' => 'exists:bloques,id',
+            'finca_id' => 'required',
+            'lote_id' => 'required',
         ]);
-
+    
         // Obtener el idCompany del usuario autenticado
         $companyId = auth()->user()->idCompany;
-
+    
         // Encontrar y actualizar la agrupación con el idCompany del usuario autenticado
+        $data = $request->except('bloques'); // Obtener todos los datos del request, excepto 'bloques'
+        $data['idCompany'] = $companyId; // Agregar idCompany
+    
         $agrupacion = Agrupacion::findOrFail($id);
-        $agrupacion->update(array_merge($request->all(), ['idCompany' => $companyId]));
-        $agrupacion->bloques()->sync($request->bloques);
-
+        $agrupacion->update($data);
+    
+        // Obtener bloques actuales en la tabla pivote
+        $existingBloques = DB::table('agrupacion_bloque')
+            ->where('agrupacion_id', $id)
+            ->where('idCompany', $companyId)
+            ->pluck('bloque_id')
+            ->toArray();
+    
+        // Obtener bloques nuevos de la solicitud
+        $newBloques = $request->input('bloques');
+    
+        // Encontrar bloques a eliminar
+        $bloquesToDelete = array_diff($existingBloques, $newBloques);
+    
+        // Encontrar bloques a agregar
+        $bloquesToAdd = array_diff($newBloques, $existingBloques);
+    
+        // Eliminar bloques que ya no están en la solicitud
+        if ($bloquesToDelete) {
+            DB::table('agrupacion_bloque')
+                ->where('agrupacion_id', $id)
+                ->where('idCompany', $companyId)
+                ->whereIn('bloque_id', $bloquesToDelete)
+                ->delete();
+        }
+    
+        // Agregar nuevos bloques
+        foreach ($bloquesToAdd as $bloqueId) {
+            DB::table('agrupacion_bloque')->updateOrInsert(
+                [
+                    'agrupacion_id' => $id,
+                    'bloque_id' => $bloqueId,
+                    'idCompany' => $companyId
+                ],
+                [
+                    'updated_at' => now()
+                ]
+            );
+        }
+    
         return redirect()->route('agrupaciones.index');
     }
+    
 
     /**
      * Remove the specified resource from storage.

@@ -99,7 +99,18 @@ class CompanyController extends Controller
     public function destroy(string $id)
     {
         $company = Company::findOrFail($id);
-        $company->delete();
-        return redirect()->route('companies.index')->with('success', 'Compañía eliminada con éxito.');
+        
+        try {
+            $company->delete();
+            return redirect()->route('companies.index')->with('success', 'Compañía eliminada con éxito.');
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Aquí capturamos la excepción de restricción de clave externa
+            if ($e->getCode() === '23000') {
+                return redirect()->route('companies.index')->with('error', 'No se puede borrar esta compañía porque tiene dependencias.');
+            }
+            // Manejo de otras excepciones si es necesario
+            return redirect()->route('companies.index')->with('error', 'Ocurrió un error al intentar eliminar la compañía.');
+        }
     }
+    
 }

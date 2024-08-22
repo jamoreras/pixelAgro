@@ -10,10 +10,11 @@ class ProductoController extends Controller
 {
     public function index()
     {
-        $productos = Producto::all();
+        $user = Auth::user();
+        $productos = Producto::where('idCompany', $user->idCompany)->get();
         return view('producto.index', compact('productos'));
     }
-
+ 
     public function create()
     {
         $clasificaciones = Clasificacion::all();

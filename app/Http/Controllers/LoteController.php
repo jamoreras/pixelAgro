@@ -57,9 +57,19 @@ class LoteController extends Controller
 
     public function destroy(string $id)
     {
-        $lote = Lote::findOrFail($id);
-        $lote->delete();
-
-        return redirect()->route('lotes.index')->with('success', 'Lote deleted successfully');
+        try {
+            $lote = Lote::findOrFail($id);
+            $lote->delete();
+    
+            return redirect()->route('lotes.index')->with('success', 'Lote eliminado con éxito.');
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Verificar si el error es una violación de restricción de clave externa
+            if ($e->getCode() === '23000') {
+                return redirect()->route('lotes.index')->with('error', 'No se puede borrar este lote porque tiene dependencias.');
+            }
+            // Manejo de otras excepciones si es necesario
+            return redirect()->route('lotes.index')->with('error', 'Ocurrió un error al intentar eliminar el lote.');
+        }
     }
+    
 }

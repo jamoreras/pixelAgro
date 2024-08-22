@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 use App\Models\Lote;
 use App\Models\Bloque;
 use Illuminate\Http\Request;
-
 class BloqueController extends Controller
 {
     public function index()
@@ -56,9 +55,19 @@ class BloqueController extends Controller
 
     public function destroy(string $id)
     {
-        $bloque = Bloque::findOrFail($id);
-        $bloque->delete();
-
-        return redirect()->route('bloques.index')->with('success', 'Bloque deleted successfully');
+        $company = Bloque::findOrFail($id);
+        
+        try {
+            $company->delete();
+            return redirect()->route('bloques.index')->with('success', 'Bloque eliminada con éxito.');
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Aquí capturamos la excepción de restricción de clave externa
+            if ($e->getCode() === '23000') {
+                return redirect()->route('bloques.index')->with('error', 'No se puede borrar este bloque porque tiene dependencias.');
+            }
+            // Manejo de otras excepciones si es necesario
+            return redirect()->route('bloques.index')->with('error', 'Ocurrió un error al intentar eliminar este bloque.');
+        }
     }
+    
 }

@@ -27,7 +27,6 @@ class Bloque extends BaseModel
     {
         return $this->belongsToMany(Agrupacion::class, 'agrupacion_bloque', 'bloque_id', 'agrupacion_id');
     }
-
     // Define la relación con el modelo Company
     public function company()
     {

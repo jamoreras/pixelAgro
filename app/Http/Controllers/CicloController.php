@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Ciclo;
 use App\Models\Programa;
 use App\Models\Company;
+use Illuminate\Support\Facades\Auth;
 
 class CicloController extends Controller
 {
@@ -24,8 +25,9 @@ class CicloController extends Controller
      */
     public function create()
     {
-        $programas = Programa::all();
-        $companies = Company::all();
+        $user = Auth::user();
+        $programas = Programa::where('idCompany', $user->idCompany)->get();
+        $companies = Company::where('id', $user->idCompany)->get();
         return view('ciclo.create', compact('programas', 'companies'));
     }
 
@@ -61,9 +63,10 @@ class CicloController extends Controller
      */
     public function edit($idCiclo)
     {
+        $user = Auth::user();
         $ciclo = Ciclo::findOrFail($idCiclo);
-        $programas = Programa::all();
-        $companies = Company::all();
+        $programas = Programa::where('idCompany', $user->idCompany)->get();
+        $companies = Company::where('id', $user->idCompany)->get();
         return view('ciclo.edit', compact('ciclo', 'programas', 'companies'));
     }
     

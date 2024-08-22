@@ -17,7 +17,8 @@ class Company extends BaseModel
         'telefono',
         'telefono2',
         'email',
-        'estado'
+        'estado',
+        'id'
     ];
 
     // Relación con el modelo Finca

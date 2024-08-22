@@ -72,6 +72,7 @@
         </div>
         
         <button type="submit" class="btn btn-primary">Actualizar</button>
+        <a href="/agrupaciones" class="btn btn-secondary" tabindex="8">Cancelar</a>
     </form>
 </div>
 
@@ -82,8 +83,6 @@
         const bloquesSelect = document.getElementById('bloques');
 
         const initialLoteId = '{{ $agrupacion->lote_id }}';
-        const initialBloques = @json($agrupacion->bloques->pluck('id'));
-
         fincaSelect.addEventListener('change', function() {
             const fincaId = this.value;
             
@@ -125,10 +124,7 @@
                             data.forEach(bloque => {
                                 const option = document.createElement('option');
                                 option.value = bloque.id;
-                                option.textContent = bloque.nombre;
-                                if (initialBloques.includes(bloque.id)) {
-                                    option.selected = true; // Seleccionar bloques iniciales
-                                }
+                                option.textContent = bloque.nombre;                              
                                 bloquesSelect.appendChild(option);
                             });
                         }

@@ -15,6 +15,8 @@ class CreateAgrupacionesTable extends Migration
             $table->decimal('areaTotal', 10, 2);
             $table->string('estado');
             $table->string('ciclo'); 
+            $table->string('finca_id');//nueva
+            $table->string('lote_id');//nueva
             $table->timestamps();
 
             // Agregar columna para la compañía

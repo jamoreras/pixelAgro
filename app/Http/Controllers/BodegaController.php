@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Bodega;
 use App\Models\Company;
-
+use Illuminate\Support\Facades\Auth;
 class BodegaController extends Controller
 {
     /**
@@ -13,8 +13,11 @@ class BodegaController extends Controller
      */
     public function index()
     {
-        $bodegas = Bodega::with('company')->get();
+        $user = Auth::user();
+        $bodegas = Bodega::where('idCompany', $user->idCompany)->get();
         return view('bodega.index', compact('bodegas'));
+     
+        
     }
 
     /**
@@ -22,7 +25,8 @@ class BodegaController extends Controller
      */
     public function create()
     {
-        $companies = Company::all();
+        $user = Auth::user();
+        $companies = Company::where('id', $user->idCompany)->get();
         return view('bodega.create', compact('companies'));
     }
 
@@ -62,8 +66,9 @@ class BodegaController extends Controller
      */
     public function edit(string $id)
     {
+        $user = Auth::user();
         $bodega = Bodega::findOrFail($id);
-        $companies = Company::all();
+        $companies = Company::where('id', $user->idCompany)->get();
         return view('bodega.edit', compact('bodega', 'companies'));
     }
 

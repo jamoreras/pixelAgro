@@ -7,23 +7,23 @@
     @csrf
     <div class="mb-3">
         <label for="cedula" class="form-label">Cédula</label>
-        <input id="cedula" name="cedula" type="text" class="form-control" tabindex="1">
+        <input id="cedula" name="cedula" type="text" class="form-control" tabindex="1" required>
     </div>
     <div class="mb-3">
         <label for="nombreComercial" class="form-label">Nombre Comercial</label>
-        <input id="nombreComercial" name="nombreComercial" type="text" class="form-control" tabindex="2">
+        <input id="nombreComercial" name="nombreComercial" type="text" class="form-control" tabindex="2" required>
     </div>
     <div class="mb-3">
         <label for="razonSocial" class="form-label">Razón Social</label>
-        <input id="razonSocial" name="razonSocial" type="text" class="form-control" tabindex="3">
+        <input id="razonSocial" name="razonSocial" type="text" class="form-control" tabindex="3" required>
     </div>
     <div class="mb-3">
         <label for="direccion" class="form-label">Dirección</label>
-        <input id="direccion" name="direccion" type="text" class="form-control" tabindex="4">
+        <input id="direccion" name="direccion" type="text" class="form-control" tabindex="4" required>
     </div>
     <div class="mb-3">
         <label for="telefono" class="form-label">Teléfono</label>
-        <input id="telefono" name="telefono" type="text" class="form-control" tabindex="5">
+        <input id="telefono" name="telefono" type="text" class="form-control" tabindex="5" required>
     </div>
     <div class="mb-3">
         <label for="telefono2" class="form-label">Teléfono 2</label>
@@ -31,11 +31,11 @@
     </div>
     <div class="mb-3">
         <label for="email" class="form-label">Email</label>
-        <input id="email" name="email" type="text" class="form-control" tabindex="7">
+        <input id="email" name="email" type="text" class="form-control" tabindex="7" required>
     </div>
     <div class="mb-3">
         <label for="estado" class="form-label">Estado</label>
-        <select class="form-select" id="estado" name="estado" tabindex="8">
+        <select class="form-select" id="estado" name="estado" tabindex="8" required>
             <option value="activo">Activo</option>
             <option value="inactivo">Inactivo</option>
         </select>

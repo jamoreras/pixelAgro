@@ -6,12 +6,20 @@
 @if (auth()->user()->role == 'admin')
 <a href="{{ route('lotes.create') }}" class="btn btn-primary">CREAR</a>
 
-<a href="{{ url('admin/dashboard') }}" class="btn btn-warning mb-3"> <- Regresar al Dashboard</a>
+<a href="{{ url('admin/dashboard') }}" class="btn btn-warning ">  <i class="fa-solid fa-backward"></i> Regresar al Dashboard</a>
 @endif
 
+@if(session('error'))
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{ session('error') }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+@endif 
+
 @if (auth()->user()->role=='employee')
-<a href="{{ url('employee/dashboard') }}" class="btn btn-warning mb-3"> <- Regresar al Dashboard</a>
+<a href="{{ url('employee/dashboard') }}" class="btn btn-warning mb-3"> <i class="fa-solid fa-backward"></i> Regresar al Dashboard</a>
 @endif
+
 <table class="table table-dark table-striped mt-4">
     <thead>
         <tr>

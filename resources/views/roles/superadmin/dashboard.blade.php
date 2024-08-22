@@ -90,9 +90,9 @@
                         <a class="nav-link active" aria-current="page" href="{{ route('superadmin.dashboard') }}">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <form method="POST" action="{{ route('logout') }}" style="display: inline;">
+                        <form method="POST" action="{{ route('logout') }}" style="">
                             @csrf
-                            <button type="submit" class="nav-link nav-link-button">Logout</button>
+                            <button type="submit" class="nav-link nav-link-button" style="margin-top: 8px">Logout</button>
                         </form>
                     </li>
                 </ul>
@@ -123,7 +123,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('superadmin.register') }}">
                                     <i class="lni lni-users"></i>
-                                    Administrar Empleados
+                                    Administrar Usuarios
                                 </a>
                             </li>
                         </ul>

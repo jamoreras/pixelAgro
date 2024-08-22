@@ -3,15 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class SuperadminController extends Controller
 {
+    
     public function dashboard()
     {
-        return view('roles.superadmin.dashboard');
+        $user=Auth::user();
+        if($user && $user->role == 'superadmin'){
+            return view('roles.superadmin.dashboard');
+        }
+        return redirect('login');
+
     }
     
-    // Other methods like dashboard, etc.
     public function index()
     {
         return view('roles.superadmin.dashboard');

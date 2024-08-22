@@ -6,11 +6,11 @@
 @if (auth()->user()->role == 'admin')
 <a href="{{ route('bodegas.create') }}" class="btn btn-primary">CREAR</a>
 
-<a href="{{ url('admin/dashboard') }}" class="btn btn-warning mb-3"> <- Regresar al Dashboard</a>
+<a href="{{ url('admin/dashboard') }}" class="btn btn-warning "> <i class="fa-solid fa-backward"></i> Regresar al Dashboard</a>
 @endif
 
 @if (auth()->user()->role=='employee')
-<a href="{{ url('employee/dashboard') }}" class="btn btn-warning mb-3"> <- Regresar al Dashboard</a>
+<a href="{{ url('employee/dashboard') }}" class="btn btn-warning mb-3"> <i class="fa-solid fa-backward"></i> Regresar al Dashboard</a>
 @endif
 <table class="table table-dark table-striped mt-4">
     <thead>

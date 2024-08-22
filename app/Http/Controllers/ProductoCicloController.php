@@ -14,7 +14,7 @@ class ProductoCicloController extends Controller
     public function index()
     {
         $productoCiclos = ProductoCiclo::with(['programa', 'ciclo', 'producto', 'company'])->get();
-        return view('productoCiclos.index', compact('productoCiclos'));
+        return view('productoCiclos.index', compact('productoCiclos')); 
     }
 
     public function create()
